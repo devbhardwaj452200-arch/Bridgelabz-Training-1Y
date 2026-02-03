@@ -3,6 +3,7 @@ import java.util.Scanner;
 
     public class VotingEligibility {
         public static void main(String[] args) {
+            
             Scanner sc = new Scanner(System.in);
 
             // a. Define an array of 10 integer elements
