@@ -1,4 +1,4 @@
-package javaArrays.Level1;
+package com.gla.arrays.Level1;
 import java.util.Scanner;
 
     public class VotingEligibility {
