@@ -1,0 +1,69 @@
+import java.util.Scanner;
+
+public class CharacterFrequency {
+
+    // Method to find frequency of characters in a string
+    public static String[][] findCharFrequency(String str) {
+        int[] freq = new int[256]; // ASCII array to store frequency
+        int length = 0;
+
+        // Find length of string manually without using length()
+        try {
+            while (true) {
+                str.charAt(length);
+                length++;
+            }
+        } catch (Exception e) {
+            // End of string
+        }
+
+        // Count frequency of each character
+        for (int i = 0; i < length; i++) {
+            char ch = str.charAt(i);
+            freq[ch]++;
+        }
+
+        // Count how many unique characters exist
+        int uniqueCount = 0;
+        for (int i = 0; i < 256; i++) {
+            if (freq[i] > 0) {
+                uniqueCount++;
+            }
+        }
+
+        // Create 2D array to store characters and their frequencies
+        String[][] result = new String[uniqueCount][2];
+        int index = 0;
+        for (int i = 0; i < 256; i++) {
+            if (freq[i] > 0) {
+                result[index][0] = Character.toString((char) i);
+                result[index][1] = Integer.toString(freq[i]);
+                index++;
+            }
+        }
+
+        return result;
+    }
+
+    // Method to display the result
+    public static void displayFrequency(String[][] freqArray) {
+        System.out.printf("%-10s %-10s%n", "Character", "Frequency");
+        System.out.println("--------------------");
+        for (String[] row : freqArray) {
+            System.out.printf("%-10s %-10s%n", row[0], row[1]);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter a string: ");
+        String input = sc.nextLine();
+
+        String[][] freqArray = findCharFrequency(input);
+
+        displayFrequency(freqArray);
+
+        sc.close();
+    }
+}

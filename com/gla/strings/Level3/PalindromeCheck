@@ -1,0 +1,78 @@
+import java.util.Scanner;
+
+public class PalindromeCheck {
+
+    // Logic 1: Iterative method comparing start and end characters
+    public static boolean isPalindromeIterative(String text) {
+        int start = 0;
+        int end = text.length() - 1;
+
+        while (start < end) {
+            if (text.charAt(start) != text.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+
+    // Logic 2: Recursive method
+    public static boolean isPalindromeRecursive(String text, int start, int end) {
+        if (start >= end) {
+            return true; // Base case: crossed the middle
+        }
+        if (text.charAt(start) != text.charAt(end)) {
+            return false; // Characters do not match
+        }
+        return isPalindromeRecursive(text, start + 1, end - 1); // Recursive call
+    }
+
+    // Logic 3: Using character arrays and reversed array
+    // Method to reverse string using charAt
+    public static char[] reverseString(String text) {
+        int len = text.length();
+        char[] reversed = new char[len];
+        for (int i = 0; i < len; i++) {
+            reversed[i] = text.charAt(len - 1 - i);
+        }
+        return reversed;
+    }
+
+    // Palindrome check using char arrays
+    public static boolean isPalindromeUsingArray(String text) {
+        char[] original = text.toCharArray();
+        char[] reversed = reverseString(text);
+
+        for (int i = 0; i < original.length; i++) {
+            if (original[i] != reversed[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter a text to check palindrome: ");
+        String input = sc.nextLine();
+
+        // Remove spaces and convert to lower case for uniform checking
+        String processed = input.replaceAll("\\s+", "").toLowerCase();
+
+        // Using Logic 1
+        boolean result1 = isPalindromeIterative(processed);
+        System.out.println("Palindrome check (Iterative): " + result1);
+
+        // Using Logic 2
+        boolean result2 = isPalindromeRecursive(processed, 0, processed.length() - 1);
+        System.out.println("Palindrome check (Recursive): " + result2);
+
+        // Using Logic 3
+        boolean result3 = isPalindromeUsingArray(processed);
+        System.out.println("Palindrome check (Char Array): " + result3);
+
+        sc.close();
+    }
+}

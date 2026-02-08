@@ -1,0 +1,99 @@
+import java.util.Scanner;
+
+public class CustomSplit {
+
+    // Method to find the length of a string without using length()
+    public static int findLength(String str) {
+        int count = 0;
+        try {
+            while (true) {
+                str.charAt(count);
+                count++;
+            }
+        } catch (IndexOutOfBoundsException e) {
+            // End of string reached
+        }
+        return count;
+    }
+
+    // Method to split the string into words without using split()
+    public static String[] customSplit(String str) {
+        int length = findLength(str);
+
+        // Step 1: Count the number of words by counting spaces
+        int wordCount = 1; // At least one word exists if string is non-empty
+        for (int i = 0; i < length; i++) {
+            if (str.charAt(i) == ' ') {
+                wordCount++;
+            }
+        }
+
+        // Step 2: Store indexes of spaces
+        int[] spaceIndexes = new int[wordCount - 1];
+        int index = 0;
+        for (int i = 0; i < length; i++) {
+            if (str.charAt(i) == ' ') {
+                spaceIndexes[index++] = i;
+            }
+        }
+
+        // Step 3: Extract words using space indexes
+        String[] words = new String[wordCount];
+        int start = 0;
+        for (int i = 0; i < wordCount; i++) {
+            int end = (i < wordCount - 1) ? spaceIndexes[i] : length;
+            StringBuilder sb = new StringBuilder();
+            for (int j = start; j < end; j++) {
+                sb.append(str.charAt(j));
+            }
+            words[i] = sb.toString();
+            start = end + 1; // Start after the space
+        }
+
+        return words;
+    }
+
+    // Method to compare two string arrays
+    public static boolean compareArrays(String[] arr1, String[] arr2) {
+        if (arr1.length != arr2.length) {
+            return false;
+        }
+        for (int i = 0; i < arr1.length; i++) {
+            if (!arr1[i].equals(arr2[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Take user input
+        System.out.print("Enter a sentence: ");
+        String input = scanner.nextLine();
+
+        // Split using custom method
+        String[] customWords = customSplit(input);
+
+        // Split using built-in method
+        String[] builtinWords = input.split(" ");
+
+        // Display results
+        System.out.println("\nWords (Custom Split):");
+        for (String word : customWords) {
+            System.out.println(word);
+        }
+
+        System.out.println("\nWords (Built-in Split):");
+        for (String word : builtinWords) {
+            System.out.println(word);
+        }
+
+        // Compare the two arrays
+        boolean arraysMatch = compareArrays(customWords, builtinWords);
+        System.out.println("\nDo both methods produce the same result? " + arraysMatch);
+
+        scanner.close();
+    }
+}
