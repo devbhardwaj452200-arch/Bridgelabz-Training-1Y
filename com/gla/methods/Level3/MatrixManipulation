@@ -1,0 +1,136 @@
+import java.util.Scanner;
+
+public class MatrixManipulation {
+
+    // Method to create a random matrix
+    public static double[][] generateRandomMatrix(int rows, int cols) {
+        double[][] matrix = new double[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix[i][j] = (int)(Math.random() * 10); // Random numbers 0-9
+            }
+        }
+        return matrix;
+    }
+
+    // Method to display a matrix
+    public static void displayMatrix(double[][] matrix) {
+        for (double[] row : matrix) {
+            for (double val : row) {
+                System.out.printf("%.2f\t", val);
+            }
+            System.out.println();
+        }
+    }
+
+    // Method to find transpose
+    public static double[][] transposeMatrix(double[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        double[][] transpose = new double[cols][rows];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                transpose[j][i] = matrix[i][j];
+            }
+        }
+        return transpose;
+    }
+
+    // Method to find determinant of 2x2 matrix
+    public static double determinant2x2(double[][] matrix) {
+        return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0];
+    }
+
+    // Method to find determinant of 3x3 matrix
+    public static double determinant3x3(double[][] m) {
+        return m[0][0]*(m[1][1]*m[2][2] - m[1][2]*m[2][1])
+             - m[0][1]*(m[1][0]*m[2][2] - m[1][2]*m[2][0])
+             + m[0][2]*(m[1][0]*m[2][1] - m[1][1]*m[2][0]);
+    }
+
+    // Method to find inverse of 2x2 matrix
+    public static double[][] inverse2x2(double[][] matrix) {
+        double det = determinant2x2(matrix);
+        if (det == 0) {
+            throw new ArithmeticException("Inverse not possible: Determinant = 0");
+        }
+        double[][] inverse = new double[2][2];
+        inverse[0][0] = matrix[1][1]/det;
+        inverse[0][1] = -matrix[0][1]/det;
+        inverse[1][0] = -matrix[1][0]/det;
+        inverse[1][1] = matrix[0][0]/det;
+        return inverse;
+    }
+
+    // Method to find inverse of 3x3 matrix using adjoint method
+    public static double[][] inverse3x3(double[][] m) {
+        double det = determinant3x3(m);
+        if (det == 0) {
+            throw new ArithmeticException("Inverse not possible: Determinant = 0");
+        }
+
+        double[][] adj = new double[3][3];
+
+        adj[0][0] =  (m[1][1]*m[2][2] - m[1][2]*m[2][1]);
+        adj[0][1] = -(m[0][1]*m[2][2] - m[0][2]*m[2][1]);
+        adj[0][2] =  (m[0][1]*m[1][2] - m[0][2]*m[1][1]);
+
+        adj[1][0] = -(m[1][0]*m[2][2] - m[1][2]*m[2][0]);
+        adj[1][1] =  (m[0][0]*m[2][2] - m[0][2]*m[2][0]);
+        adj[1][2] = -(m[0][0]*m[1][2] - m[0][2]*m[1][0]);
+
+        adj[2][0] =  (m[1][0]*m[2][1] - m[1][1]*m[2][0]);
+        adj[2][1] = -(m[0][0]*m[2][1] - m[0][1]*m[2][0]);
+        adj[2][2] =  (m[0][0]*m[1][1] - m[0][1]*m[1][0]);
+
+        // Transpose adjoint to get cofactor matrix
+        double[][] adjT = transposeMatrix(adj);
+
+        // Divide each element by determinant
+        double[][] inverse = new double[3][3];
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                inverse[i][j] = adjT[i][j] / det;
+
+        return inverse;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input matrix size
+        System.out.print("Enter matrix size (2 or 3): ");
+        int n = sc.nextInt();
+
+        if (n != 2 && n != 3) {
+            System.out.println("Only 2x2 or 3x3 matrices are supported.");
+            return;
+        }
+
+        // Generate random matrix
+        double[][] matrix = generateRandomMatrix(n, n);
+
+        System.out.println("\nOriginal Matrix:");
+        displayMatrix(matrix);
+
+        // Transpose
+        System.out.println("\nTranspose:");
+        displayMatrix(transposeMatrix(matrix));
+
+        // Determinant
+        double det = (n == 2) ? determinant2x2(matrix) : determinant3x3(matrix);
+        System.out.println("\nDeterminant: " + String.format("%.2f", det));
+
+        // Inverse
+        try {
+            double[][] inverse = (n == 2) ? inverse2x2(matrix) : inverse3x3(matrix);
+            System.out.println("\nInverse:");
+            displayMatrix(inverse);
+        } catch (ArithmeticException e) {
+            System.out.println("\n" + e.getMessage());
+        }
+
+        sc.close();
+    }
+}

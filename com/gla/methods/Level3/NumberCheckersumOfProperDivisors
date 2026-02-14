@@ -1,0 +1,69 @@
+public class NumberCheckersumOfProperDivisors {
+
+    // Helper method to calculate sum of proper divisors (excluding the number itself)
+    public static int sumOfProperDivisors(int number) {
+        if (number <= 1) return 0; // 1 and below have no proper divisors
+        int sum = 1; // 1 is always a proper divisor (except for 1 itself)
+        int sqrt = (int) Math.sqrt(number);
+        for (int i = 2; i <= sqrt; i++) {
+            if (number % i == 0) {
+                sum += i;
+                int otherDivisor = number / i;
+                if (otherDivisor != i) {
+                    sum += otherDivisor;
+                }
+            }
+        }
+        return sum;
+    }
+
+    // a. Check if a number is perfect number
+    public static boolean isPerfectNumber(int number) {
+        return number > 0 && sumOfProperDivisors(number) == number;
+    }
+
+    // b. Check if a number is abundant number
+    public static boolean isAbundantNumber(int number) {
+        return number > 0 && sumOfProperDivisors(number) > number;
+    }
+
+    // c. Check if a number is deficient number
+    public static boolean isDeficientNumber(int number) {
+        return number > 0 && sumOfProperDivisors(number) < number;
+    }
+
+    // Helper method to calculate factorial of a digit (0-9)
+    private static int factorial(int n) {
+        int fact = 1;
+        for (int i = 2; i <= n; i++) {
+            fact *= i;
+        }
+        return fact;
+    }
+
+    // d. Check if a number is strong number
+    // A number is strong if sum of factorials of digits equals the number
+    public static boolean isStrongNumber(int number) {
+        int original = number;
+        int sumFactorials = 0;
+        while (number > 0) {
+            int digit = number % 10;
+            sumFactorials += factorial(digit);
+            number /= 10;
+        }
+        return sumFactorials == original;
+    }
+
+    public static void main(String[] args) {
+        int[] testNumbers = {6, 12, 15, 28, 145, 496, 18, 20};
+
+        for (int num : testNumbers) {
+            System.out.println("Number: " + num);
+            System.out.println("Is Perfect Number? " + (isPerfectNumber(num) ? "Yes" : "No"));
+            System.out.println("Is Abundant Number? " + (isAbundantNumber(num) ? "Yes" : "No"));
+            System.out.println("Is Deficient Number? " + (isDeficientNumber(num) ? "Yes" : "No"));
+            System.out.println("Is Strong Number? " + (isStrongNumber(num) ? "Yes" : "No"));
+            System.out.println("----------------------------------------------");
+        }
+    }
+}

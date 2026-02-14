@@ -1,0 +1,73 @@
+public class NumberChecker {
+
+    // a. Check if a number is prime
+    public static boolean isPrime(int number) {
+        if (number <= 1) return false;
+        if (number == 2) return true;
+        if (number % 2 == 0) return false;
+        int sqrt = (int) Math.sqrt(number);
+        for (int i = 3; i <= sqrt; i += 2) {
+            if (number % i == 0) return false;
+        }
+        return true;
+    }
+
+    // Helper method to get digits of a number
+    private static int[] getDigits(int number) {
+        String numStr = Integer.toString(number);
+        int[] digits = new int[numStr.length()];
+        for (int i = 0; i < numStr.length(); i++) {
+            digits[i] = numStr.charAt(i) - '0';
+        }
+        return digits;
+    }
+
+    // b. Check if a number is neon number
+    public static boolean isNeonNumber(int number) {
+        int square = number * number;
+        int sumDigits = 0;
+        int[] digits = getDigits(square);
+        for (int d : digits) {
+            sumDigits += d;
+        }
+        return sumDigits == number;
+    }
+
+    // c. Check if a number is spy number (sum of digits == product of digits)
+    public static boolean isSpyNumber(int number) {
+        int[] digits = getDigits(number);
+        int sum = 0, product = 1;
+        for (int d : digits) {
+            sum += d;
+            product *= d;
+        }
+        return sum == product;
+    }
+
+    // d. Check if a number is automorphic (square ends with the number itself)
+    public static boolean isAutomorphic(int number) {
+        long square = (long) number * number;
+        String numStr = Integer.toString(number);
+        String squareStr = Long.toString(square);
+        return squareStr.endsWith(numStr);
+    }
+
+    // e. Check if a number is buzz number (divisible by 7 or ends with 7)
+    public static boolean isBuzzNumber(int number) {
+        return number % 7 == 0 || number % 10 == 7;
+    }
+
+    public static void main(String[] args) {
+        int[] testNumbers = {7, 9, 19, 153, 25, 1729, 5, 49};
+
+        for (int number : testNumbers) {
+            System.out.println("Number: " + number);
+            System.out.println("Is Prime? " + (isPrime(number) ? "Yes" : "No"));
+            System.out.println("Is Neon? " + (isNeonNumber(number) ? "Yes" : "No"));
+            System.out.println("Is Spy? " + (isSpyNumber(number) ? "Yes" : "No"));
+            System.out.println("Is Automorphic? " + (isAutomorphic(number) ? "Yes" : "No"));
+            System.out.println("Is Buzz? " + (isBuzzNumber(number) ? "Yes" : "No"));
+            System.out.println("------------------------------------------------");
+        }
+    }
+}

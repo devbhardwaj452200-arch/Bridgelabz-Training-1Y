@@ -1,0 +1,66 @@
+import java.util.Arrays;
+
+public class FootballTeamHeights {
+
+    // Method to generate 3-digit random heights between 150 and 250 cm
+    public static int[] generateRandomHeights(int size) {
+        int[] heights = new int[size];
+        for (int i = 0; i < size; i++) {
+            heights[i] = (int) (Math.random() * 101) + 150; // 150 to 250
+        }
+        return heights;
+    }
+
+    // Method to find the sum of all elements in the array
+    public static int findSum(int[] arr) {
+        int sum = 0;
+        for (int height : arr) {
+            sum += height;
+        }
+        return sum;
+    }
+
+    // Method to find the mean height
+    public static double findMean(int[] arr) {
+        int sum = findSum(arr);
+        return (double) sum / arr.length;
+    }
+
+    // Method to find the shortest height
+    public static int findShortest(int[] arr) {
+        int min = arr[0];
+        for (int height : arr) {
+            min = Math.min(min, height);
+        }
+        return min;
+    }
+
+    // Method to find the tallest height
+    public static int findTallest(int[] arr) {
+        int max = arr[0];
+        for (int height : arr) {
+            max = Math.max(max, height);
+        }
+        return max;
+    }
+
+    public static void main(String[] args) {
+        int teamSize = 11;
+
+        // Generate random heights for 11 players
+        int[] heights = generateRandomHeights(teamSize);
+
+        // Display player heights
+        System.out.println("Player heights (cm): " + Arrays.toString(heights));
+
+        // Calculate mean, shortest, and tallest
+        double meanHeight = findMean(heights);
+        int shortestHeight = findShortest(heights);
+        int tallestHeight = findTallest(heights);
+
+        // Display results
+        System.out.printf("\nMean Height: %.2f cm\n", meanHeight);
+        System.out.println("Shortest Player: " + shortestHeight + " cm");
+        System.out.println("Tallest Player: " + tallestHeight + " cm");
+    }
+}

@@ -1,0 +1,72 @@
+import java.util.Scanner;
+
+public class BMICalculator {
+
+    // Method to calculate BMI and populate it in the array
+    // bmiArray: 10x3 array, column 0 = weight (kg), column 1 = height (cm), column 2 = BMI
+    public static void calculateBMI(double[][] bmiArray) {
+        for (int i = 0; i < bmiArray.length; i++) {
+            double weight = bmiArray[i][0];
+            double heightCm = bmiArray[i][1];
+            double heightM = heightCm / 100.0; // convert cm to meters
+            double bmi = weight / (heightM * heightM);
+            bmiArray[i][2] = bmi;
+        }
+    }
+
+    // Method to determine BMI status based on BMI value
+    public static String[] determineBMIStatus(double[][] bmiArray) {
+        String[] status = new String[bmiArray.length];
+        for (int i = 0; i < bmiArray.length; i++) {
+            double bmi = bmiArray[i][2];
+            if (bmi < 18.5) {
+                status[i] = "Underweight";
+            } else if (bmi < 24.9) {
+                status[i] = "Normal weight";
+            } else if (bmi < 29.9) {
+                status[i] = "Overweight";
+            } else {
+                status[i] = "Obese";
+            }
+        }
+        return status;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double[][] bmiArray = new double[10][3]; // 10 persons, 3 columns
+
+        // Input weight and height for 10 members
+        for (int i = 0; i < 10; i++) {
+            System.out.print("Enter weight (kg) of person " + (i + 1) + ": ");
+            while (!scanner.hasNextDouble()) {
+                System.out.print("Invalid input! Enter weight in kg: ");
+                scanner.next();
+            }
+            bmiArray[i][0] = scanner.nextDouble();
+
+            System.out.print("Enter height (cm) of person " + (i + 1) + ": ");
+            while (!scanner.hasNextDouble()) {
+                System.out.print("Invalid input! Enter height in cm: ");
+                scanner.next();
+            }
+            bmiArray[i][1] = scanner.nextDouble();
+        }
+
+        // Calculate BMI
+        calculateBMI(bmiArray);
+
+        // Determine BMI status
+        String[] statusArray = determineBMIStatus(bmiArray);
+
+        // Display results
+        System.out.println("\nPerson\tWeight(kg)\tHeight(cm)\tBMI\t\tStatus");
+        System.out.println("-------------------------------------------------------------");
+        for (int i = 0; i < 10; i++) {
+            System.out.printf("%d\t%.2f\t\t%.2f\t\t%.2f\t%s\n",
+                    (i + 1), bmiArray[i][0], bmiArray[i][1], bmiArray[i][2], statusArray[i]);
+        }
+
+        scanner.close();
+    }
+}

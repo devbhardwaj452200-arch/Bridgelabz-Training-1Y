@@ -1,0 +1,87 @@
+import java.util.Arrays;
+
+public class NumberCheckerType {
+
+    // a. Method to count digits in the number
+    public static int countDigits(int number) {
+        if (number == 0) return 1;
+        int count = 0;
+        int n = Math.abs(number);
+        while (n > 0) {
+            count++;
+            n /= 10;
+        }
+        return count;
+    }
+
+    // a. Method to store digits of the number in an array (left to right)
+    public static int[] storeDigits(int number) {
+        int numDigits = countDigits(number);
+        int[] digits = new int[numDigits];
+        int n = Math.abs(number);
+        for (int i = numDigits - 1; i >= 0; i--) {
+            digits[i] = n % 10;
+            n /= 10;
+        }
+        return digits;
+    }
+
+    // b. Method to reverse the digits array
+    public static int[] reverseDigits(int[] digits) {
+        int[] reversed = new int[digits.length];
+        for (int i = 0; i < digits.length; i++) {
+            reversed[i] = digits[digits.length - 1 - i];
+        }
+        return reversed;
+    }
+
+    // c. Method to compare two arrays and check if they are equal
+    public static boolean arraysEqual(int[] arr1, int[] arr2) {
+        if (arr1.length != arr2.length) return false;
+        for (int i = 0; i < arr1.length; i++) {
+            if (arr1[i] != arr2[i]) return false;
+        }
+        return true;
+    }
+
+    // d. Method to check if a number is palindrome using digits array
+    public static boolean isPalindrome(int[] digits) {
+        int[] reversed = reverseDigits(digits);
+        return arraysEqual(digits, reversed);
+    }
+
+    // e. Method to check if a number is a duck number using digits array
+    // Duck number: number has at least one non-zero digit (ignores leading zeros)
+    public static boolean isDuckNumber(int[] digits) {
+        for (int digit : digits) {
+            if (digit != 0) return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        int number = 1221; // Example number
+
+        System.out.println("Number: " + number);
+
+        // a. Count digits and store digits array
+        int count = countDigits(number);
+        System.out.println("Count of digits: " + count);
+
+        int[] digits = storeDigits(number);
+        System.out.println("Digits array: " + Arrays.toString(digits));
+
+        // b. Reverse digits array
+        int[] reversedDigits = reverseDigits(digits);
+        System.out.println("Reversed digits array: " + Arrays.toString(reversedDigits));
+
+        // c. Compare digits array with reversed array
+        System.out.println("Are digits array and reversed array equal? " + (arraysEqual(digits, reversedDigits) ? "Yes" : "No"));
+
+        // d. Check if palindrome
+        System.out.println("Is palindrome? " + (isPalindrome(digits) ? "Yes" : "No"));
+
+        // e. Check if duck number
+        System.out.println("Is duck number? " + (isDuckNumber(digits) ? "Yes" : "No"));
+    }
+}

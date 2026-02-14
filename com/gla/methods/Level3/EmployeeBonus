@@ -1,0 +1,80 @@
+import java.util.Arrays;
+import java.util.Random;
+
+public class EmployeeBonus {
+
+    static final int NUM_EMPLOYEES = 10;
+
+    // b. Method to generate random salary and years of service for employees
+    public static double[][] generateEmployeeData() {
+        double[][] data = new double[NUM_EMPLOYEES][2]; // [salary, yearsOfService]
+        Random rand = new Random();
+
+        for (int i = 0; i < NUM_EMPLOYEES; i++) {
+            // Random 5-digit salary: 10000 to 99999
+            double salary = rand.nextInt(90000) + 10000;
+            // Random years of service: 1 to 10
+            double years = rand.nextInt(10) + 1;
+
+            data[i][0] = salary;
+            data[i][1] = years;
+        }
+        return data;
+    }
+
+    // c. Method to calculate new salary and bonus
+    public static double[][] calculateBonus(double[][] employeeData) {
+        double[][] newData = new double[NUM_EMPLOYEES][2]; // [newSalary, bonusAmount]
+
+        for (int i = 0; i < NUM_EMPLOYEES; i++) {
+            double salary = employeeData[i][0];
+            double years = employeeData[i][1];
+            double bonusRate = years > 5 ? 0.05 : 0.02;
+            double bonus = salary * bonusRate;
+            double newSalary = salary + bonus;
+
+            newData[i][0] = newSalary;
+            newData[i][1] = bonus;
+        }
+        return newData;
+    }
+
+    // d. Method to display data and calculate totals
+    public static void displaySummary(double[][] oldData, double[][] newData) {
+        double totalOldSalary = 0;
+        double totalNewSalary = 0;
+        double totalBonus = 0;
+
+        System.out.printf("%-10s %-12s %-8s %-12s %-12s %-10s\n",
+                          "Employee", "Old Salary", "Years", "Bonus", "New Salary", "Service");
+
+        for (int i = 0; i < NUM_EMPLOYEES; i++) {
+            double oldSalary = oldData[i][0];
+            double years = oldData[i][1];
+            double bonus = newData[i][1];
+            double newSalary = newData[i][0];
+
+            totalOldSalary += oldSalary;
+            totalNewSalary += newSalary;
+            totalBonus += bonus;
+
+            System.out.printf("%-10d %-12.2f %-8.1f %-12.2f %-12.2f %-10.1f\n",
+                              i + 1, oldSalary, years, bonus, newSalary, years);
+        }
+
+        System.out.println("---------------------------------------------------------------");
+        System.out.printf("%-10s %-12.2f %-8s %-12.2f %-12.2f\n",
+                          "Total", totalOldSalary, "", totalBonus, totalNewSalary);
+    }
+
+    public static void main(String[] args) {
+        // Generate random employee data
+        double[][] employeeData = generateEmployeeData();
+
+        // Calculate bonuses and new salaries
+        double[][] newSalaryData = calculateBonus(employeeData);
+
+        // Display summary
+        displaySummary(employeeData, newSalaryData);
+    }
+}
