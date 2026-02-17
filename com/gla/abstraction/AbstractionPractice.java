@@ -1,6 +1,6 @@
 package com.gla.abstraction;
 abstract class Fruit{
-    abstract void test();
+    abstract void taste();
     public void colour(){
         System.out.println("Yellow");
     }
@@ -8,7 +8,7 @@ abstract class Fruit{
 class Mango extends Fruit{
 
     @Override
-    void test() {
+    void taste() {
         System.out.println("Sweet");
     }
 }
@@ -17,21 +17,21 @@ class Mango extends Fruit{
 class PineApple extends Fruit{
 
     @Override
-    void test() {
+    void taste() {
         System.out.println("Sour-Sweet");
     }
 }
 public class AbstractionPractice {
     public static void main(String[] args){
 Mango m1=new Mango();
-m1.test();
+m1.taste();
 m1.colour();
 
 Fruit f1=new Mango();
 f1.colour();
-f1.test();
+f1.taste();
 
         PineApple p1=new PineApple();
-        p1.test();
+        p1.taste();
     }
 }
