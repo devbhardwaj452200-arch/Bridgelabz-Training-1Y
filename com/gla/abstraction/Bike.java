@@ -1,13 +1,14 @@
 package com.gla.abstraction;
 
 public interface Bike {
-    String color="Black";
-    String company="BMW";
-    public void engine();
-    public void speed();
+    String color = "Black";
+    String company = "BMW";
+
+    void engine();
+    void speed();
 }
 
-class S100RR implements Bike{
+class S100RR implements Bike {
 
     @Override
     public void engine() {
