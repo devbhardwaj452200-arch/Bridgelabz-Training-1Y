@@ -1,6 +1,6 @@
 package com.gla.abstraction;
 
-public class MainBike {
+public class  MainBike {
     public static void main(String[] args) {
         // Create object of S100RR
         S100RR bike = new S100RR();
