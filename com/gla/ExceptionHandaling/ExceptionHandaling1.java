@@ -23,9 +23,11 @@ public class ExceptionHandaling1
             System.out.println(str);
         }
         catch(NullPointerException e){           //NullPointerException
+            assert System.out != null;
             System.out.println(e.getMessage());
         }
         finally{
+            assert System.out != null;
             System.out.println("finally execute");
         }
     }
