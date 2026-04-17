@@ -1,0 +1,13 @@
+import java.time.*;
+import java.util.*;
+
+public class TransactionLogger {
+    public static void main(String[] args) {
+        List<String> transactionIds = Arrays.asList("TXN1001", "TXN1002", "TXN1003");
+
+        transactionIds.forEach(id ->
+                System.out.println("Transaction: " + id +
+                        " | Time: " + LocalDateTime.now())
+        );
+    }
+}
